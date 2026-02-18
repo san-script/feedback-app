@@ -8,7 +8,7 @@
     "dev:watch": "nodemon --exec \"npm run dev\" --watch ./src --ext .ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "start": "DOTENV_CONFIG_PATH=./config/.env.production node -r dotenv/config -r module-alias/register ./dist/main.js",
+    "start": "node -r dotenv/config -r module-alias/register ./dist/server.js",
     "test": "cross-env NODE_ENV=test vitest",
     "test:watch": "cross-env NODE_ENV=test vitest",
     "type-check": "tsc -b --noEmit"

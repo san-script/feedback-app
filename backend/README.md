@@ -1,54 +1,62 @@
 ## About
 
-This project was created with [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
+This is the backend service for the Feedback App, generated with [express-generator-typescript](https://github.com/seanpmaxwell/express-generator-typescript).
 
-**IMPORTANT** for demo purposes I had to disable `helmet` in production. In any real world app you should change these 3 lines of code in `src/server.ts`:
+It provides an Express-based API with TypeScript, unit testing via Vitest, and a standard build pipeline for development and production.
 
-```ts
-// eslint-disable-next-line n/no-process-env
-if (!process.env.DISABLE_HELMET) {
-  app.use(helmet());
-}
-```
-
-To just this:
-
-```ts
-app.use(helmet());
-```
+---
 
 ## Available Scripts
 
 ### `npm run clean-install`
 
-Remove the existing `node_modules/` folder, `package-lock.json`, and reinstall all library modules.
+Removes `node_modules/` and `package-lock.json`, then reinstalls all dependencies.
 
-### `npm run dev` or `npm run dev:watch` (hot reloading)
+---
 
-Run the server in development mode.<br/>
+### `npm run dev` / `npm run dev:watch`
 
-**IMPORTANT** development mode uses `swc` for performance reasons which DOES NOT check for typescript errors. Run `npm run type-check` to check for type errors. NOTE: you should use your IDE to prevent most type errors.
+Runs the server in development mode with hot reloading.
+
+> **Note**: Development mode uses `swc` for performance and **does not perform TypeScript type-checking**.
+> Run `npm run type-check` or rely on your IDE for type safety.
+
+---
 
 ### `npm test`
 
-Run unit-tests with <a href="https://vitest.dev/guide/">vitest</a>.
+Runs unit tests using [Vitest](https://vitest.dev/guide/).
+
+---
 
 ### `npm run lint`
 
-Check for linting errors.
+Runs ESLint to check for linting issues.
+
+---
 
 ### `npm run build`
 
-Build the project for production.
+Builds the project for production.
+
+---
 
 ### `npm start`
 
-Run the production build (Must be built first).
+Runs the production build (the project must be built first).
+
+---
 
 ### `npm run type-check`
 
-Check for typescript errors.
+Runs the TypeScript compiler in type-checking mode.
+
+---
 
 ## Additional Notes
 
-- If `npm run dev` gives you issues with bcrypt on MacOS you may need to run: `npm rebuild bcrypt --build-from-source`.
+* If you encounter issues with `bcrypt` on macOS during development, you may need to rebuild it from source:
+
+  ```bash
+  npm rebuild bcrypt --build-from-source
+  ```

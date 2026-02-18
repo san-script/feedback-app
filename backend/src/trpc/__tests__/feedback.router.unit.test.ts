@@ -6,31 +6,27 @@ import { feedbackRouter } from '../feedback';
  * Mock the database BEFORE importing the router
  */
 vi.mock('../../db', () => {
+  const mockRows = [
+    {
+      id: 1,
+      message: 'Mock feedback',
+      rating: 8,
+      author: 'Tester',
+      createdAt: new Date(),
+    },
+  ];
+
   return {
     db: {
       select: vi.fn(() => ({
-        from: vi.fn(() => [
-          {
-            id: 1,
-            message: 'Mock feedback',
-            rating: 8,
-            author: 'Tester',
-            createdAt: new Date(),
-          },
-        ]),
+        from: vi.fn(() => ({
+          orderBy: vi.fn(() => mockRows),
+        })),
       })),
 
       insert: vi.fn(() => ({
         values: vi.fn(() => ({
-          returning: vi.fn(() => [
-            {
-              id: 1,
-              message: 'Mock feedback',
-              rating: 8,
-              author: 'Tester',
-              createdAt: new Date(),
-            },
-          ]),
+          returning: vi.fn(() => mockRows),
         })),
       })),
 
@@ -39,11 +35,9 @@ vi.mock('../../db', () => {
           where: vi.fn(() => ({
             returning: vi.fn(() => [
               {
-                id: 1,
+                ...mockRows[0],
                 message: 'Updated feedback',
                 rating: 9,
-                author: 'Tester',
-                createdAt: new Date(),
               },
             ]),
           })),

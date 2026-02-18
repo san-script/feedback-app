@@ -27,16 +27,8 @@ app.get('/', (_req, res) => {
   res.send('Backend running');
 });
 
-app.post('/test', (req, res) => {
-  console.log('headers:', req.headers);
-  console.log('test body:', req.body);
-  res.json(req.body);
-});
-
 //  tRPC MUST come before error handler
 app.use('/trpc', (req, _res, next) => {
-  console.log('tRPC request:', req.method, req.url);
-  console.log('tRPC body:', JSON.stringify(req.body, null, 2));
   next();
 });
 app.use(
