@@ -2,13 +2,41 @@
 
 A full-stack feedback board built with **React**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**.
 
-The application supports creating, reading, updating, and deleting feedback entries, with a typed end-to-end API and a clean separation between frontend and backend.
+The application allows users to submit feedback and provides an admin interface to manage feedback entries, all with end-to-end type safety.
+
+---
+
+## What This App Does
+
+### User-facing experience
+
+- The **home page** is a public feedback form.
+- Any user can:
+    - Submit feedback
+    - Give a rating
+    - Optionally include their name
+
+- No authentication is required for submitting feedback.
+
+### Admin experience
+
+- Clicking **Admin login** navigates to the admin area.
+- Admins can:
+    - View all submitted feedback
+    - Edit feedback entries
+    - Delete feedback entries
+
+- Clicking **Logout** returns the user to the public feedback form.
+
+This clear separation keeps the user experience simple while giving admins full control.
 
 ---
 
 ## Features
 
-- Full CRUD functionality for feedback
+- Public feedback submission form
+- Admin dashboard for managing feedback
+- Full CRUD functionality
 - End-to-end type safety with tRPC
 - PostgreSQL database access via Drizzle ORM
 - Unit-tested backend logic
@@ -18,7 +46,7 @@ The application supports creating, reading, updating, and deleting feedback entr
 
 ## Project Structure
 
-- `frontend/` – React + TypeScript client
+- `frontend/` – React + TypeScript client (Vite)
 - `backend/` – Express + tRPC API server
 
 Each package contains its own README with setup and usage details.
@@ -29,6 +57,8 @@ Each package contains its own README with setup and usage details.
 
 Follow these steps to run the project locally.
 
+---
+
 ### 1. Clone the repository
 
 ```bash
@@ -38,20 +68,50 @@ cd feedback-app
 
 ---
 
-### 2. Set up the backend
+### 2. Set up the database
+
+Make sure you have **PostgreSQL** running locally or remotely.
+
+Create a new database:
+
+```sql
+CREATE DATABASE feedback_app;
+```
+
+---
+
+### 3. Set up the backend
 
 ```bash
 cd backend
 npm install
 ```
 
-Create a `.env` file in the `backend` directory and add your database connection string:
+Create a `.env` file in the `backend` directory:
 
 ```env
-DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/DATABASE_NAME
+DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/feedback_app
 ```
 
-Run the backend in development mode:
+---
+
+### 4. Create database tables (Drizzle)
+
+Push the schema to the database using Drizzle Kit:
+
+```bash
+npx drizzle-kit push
+```
+
+This will:
+
+- Create the required tables
+- Sync your schema with the database
+- Run safely without data loss in development
+
+---
+
+### 5. Run the backend server
 
 ```bash
 npm run dev
@@ -61,7 +121,7 @@ The backend server will start on its configured port.
 
 ---
 
-### 3. Set up the frontend
+### 6. Set up the frontend
 
 Open a new terminal window:
 
@@ -79,11 +139,19 @@ http://localhost:5173
 
 ---
 
-### 4. (Optional) Production build
+## Usage Flow
 
-To build and run the apps in production mode:
+1. Visit `http://localhost:5173`
+2. Submit feedback as a normal user
+3. Click **Admin login** to access the admin dashboard
+4. View, edit, or delete feedback
+5. Click **Logout** to return to the public feedback form
 
-**Backend**
+---
+
+## Production Build (Optional)
+
+### Backend
 
 ```bash
 cd backend
@@ -91,7 +159,7 @@ npm run build
 npm start
 ```
 
-**Frontend**
+### Frontend
 
 ```bash
 cd frontend

@@ -54,7 +54,7 @@ export default function FeedbackList() {
 							{isLoading && (
 								<tr>
 									<td
-										colSpan={4}
+										colSpan={5}
 										className="px-6 py-10 text-center text-slate-500"
 									>
 										Loading…
@@ -65,7 +65,7 @@ export default function FeedbackList() {
 							{error && (
 								<tr>
 									<td
-										colSpan={4}
+										colSpan={5}
 										className="px-6 py-10 text-center text-red-600"
 									>
 										Failed to load feedback
@@ -127,7 +127,7 @@ export default function FeedbackList() {
 							{!isLoading && data?.length === 0 && (
 								<tr>
 									<td
-										colSpan={4}
+										colSpan={5}
 										className="px-6 py-10 text-center text-slate-500"
 									>
 										No feedback yet
