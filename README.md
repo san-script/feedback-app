@@ -2,7 +2,7 @@
 
 A full-stack feedback board built with **React**, **TypeScript**, **tRPC**, **Drizzle ORM**, and **PostgreSQL**.
 
-The application allows users to submit feedback and provides an admin interface to manage feedback entries, all with end-to-end type safety.
+The application allows users to submit feedback and provides an admin interface to manage feedback entries, with end-to-end type safety across the stack.
 
 ---
 
@@ -16,11 +16,11 @@ The application allows users to submit feedback and provides an admin interface 
     - Give a rating
     - Optionally include their name
 
-- No authentication is required for submitting feedback.
+- No authentication is required to submit feedback.
 
 ### Admin experience
 
-- Clicking **Admin login** navigates to the admin area.
+- Clicking **Admin login** navigates to the admin dashboard.
 - Admins can:
     - View all submitted feedback
     - Edit feedback entries
@@ -28,7 +28,7 @@ The application allows users to submit feedback and provides an admin interface 
 
 - Clicking **Logout** returns the user to the public feedback form.
 
-This clear separation keeps the user experience simple while giving admins full control.
+This separation keeps the user experience simple while giving admins full control.
 
 ---
 
@@ -91,7 +91,18 @@ Create a `.env` file in the `backend` directory:
 
 ```env
 DATABASE_URL=postgres://USER:PASSWORD@HOST:PORT/feedback_app
+NODE_ENV=development
 ```
+
+#### Environment variables
+
+| Variable       | Description                                             |
+| -------------- | ------------------------------------------------------- |
+| `DATABASE_URL` | PostgreSQL connection string                            |
+| `NODE_ENV`     | Application environment (`development` or `production`) |
+
+- `development` enables detailed error messages and stack traces.
+- `production` hides internal errors and stack traces from API responses.
 
 ---
 
@@ -153,6 +164,14 @@ http://localhost:5173
 
 ### Backend
 
+Set the environment to production:
+
+```bash
+export NODE_ENV=production
+```
+
+Then build and start the server:
+
 ```bash
 cd backend
 npm run build
@@ -172,6 +191,13 @@ The frontend preview will be available at:
 ```
 http://localhost:4173
 ```
+
+---
+
+## Notes
+
+- Ensure `NODE_ENV=production` is set in production deployments to prevent internal errors from being exposed.
+- Database migrations should be reviewed before running `drizzle-kit push` in production environments.
 
 ---
 

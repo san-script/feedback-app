@@ -8,9 +8,6 @@ It provides an Express-based API with TypeScript, unit testing via Vitest, and a
 
 ## Available Scripts
 
-### `npm run clean-install`
-
-Removes `node_modules/` and `package-lock.json`, then reinstalls all dependencies.
 
 ---
 
