@@ -1,54 +1,74 @@
 import * as trpcExpress from '@trpc/server/adapters/express';
 import cors from 'cors';
 import 'dotenv/config';
-import express from 'express';
-import { NextFunction, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 import morgan from 'morgan';
 
 import { appRouter } from './trpc/router';
 
-const app = express();
-const PORT = 4000;
+/* -----------------------------------------------------
+   App & config
+----------------------------------------------------- */
 
-// --------------------
-// Middleware
-// --------------------
+const app: Application = express();
+
+const PORT: number = Number(process.env.PORT) || 4000;
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+/* -----------------------------------------------------
+   Middleware
+----------------------------------------------------- */
+
 app.use(cors());
-app.use(express.json()); //  body parser FIRST
+app.use(express.json()); // body parser FIRST
 
-if (process.env.NODE_ENV !== 'production') {
+if (!IS_PROD) {
   app.use(morgan('dev'));
 }
 
-// --------------------
-// Routes
-// --------------------
-app.get('/', (_req, res) => {
+/* -----------------------------------------------------
+   Health check
+----------------------------------------------------- */
+
+app.get('/', (_req: Request, res: Response): void => {
   res.send('Backend running');
 });
 
-//  tRPC MUST come before error handler
-app.use('/trpc', (req, _res, next) => {
-  next();
-});
+/* -----------------------------------------------------
+   tRPC
+----------------------------------------------------- */
+
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
     router: appRouter,
+    createContext: ({ req, res }) => ({
+      req,
+      res,
+    }),
   }),
 );
 
-// --------------------
-// Error handler
-// --------------------
-app.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
-  console.error(err);
-  res.status(500).json({ error: err.message });
-});
+/* -----------------------------------------------------
+   Error handler
+----------------------------------------------------- */
 
-// --------------------
-// Start server
-// --------------------
+app.use(
+  (err: unknown, _req: Request, res: Response, _next: NextFunction): void => {
+    console.error(err);
+
+    if (err instanceof Error) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(500).json({ error: 'Unknown server error' });
+    }
+  },
+);
+
+/* -----------------------------------------------------
+   Start server
+----------------------------------------------------- */
+
 app.listen(PORT, () => {
   console.log(`Backend running at http://localhost:${PORT}`);
 });
